@@ -14,7 +14,7 @@ public class TeacherConfiguration : IEntityTypeConfiguration<Teacher>
         builder
             .HasOne(t => t.CommonUser)
             .WithOne(cu => cu.Teacher)
-            .HasForeignKey<Teacher>(s => s.CommonUserId);
+            .HasForeignKey<Teacher>(t => t.CommonUserId);
         
         builder
             .HasMany(t => t.Disciplines)

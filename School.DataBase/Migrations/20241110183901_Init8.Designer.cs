@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using School.DataBase;
@@ -11,9 +12,11 @@ using School.DataBase;
 namespace School.DataBase.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241110183901_Init8")]
+    partial class Init8
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -220,6 +223,10 @@ namespace School.DataBase.Migrations
                     b.Property<int?>("MainTeacherId")
                         .HasColumnType("integer");
 
+                    b.Property<string>("StudentsId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.HasIndex("MainTeacherId")
@@ -400,7 +407,7 @@ namespace School.DataBase.Migrations
                     b.Property<DateOnly>("BirthDate")
                         .HasColumnType("date");
 
-                    b.Property<int?>("ClassId")
+                    b.Property<int>("ClassId")
                         .HasColumnType("integer");
 
                     b.Property<int>("CommonUserId")
@@ -628,7 +635,9 @@ namespace School.DataBase.Migrations
                 {
                     b.HasOne("School.DataBase.Models.BaseModels.Class", "Class")
                         .WithMany("Students")
-                        .HasForeignKey("ClassId");
+                        .HasForeignKey("ClassId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("School.DataBase.Models.BaseModels.CommonUser", "CommonUser")
                         .WithOne("Student")

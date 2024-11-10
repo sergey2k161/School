@@ -23,8 +23,8 @@ public class Student
     
     public double? Rating { get; set; }
     
-    public int ClassId { get; set; }
-    public Class Class { get; set; }
+    public int? ClassId { get; set; }
+    public Class? Class { get; set; }
     
     public string Gender { get; set; } // лучшее сделать bool, Но мне лень :))))))
 

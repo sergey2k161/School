@@ -28,22 +28,26 @@ public class ClassService : IClassService
 
     public async Task<Class?> GetClassById(int id)
     {
-        throw new NotImplementedException();
+        var clas = await _classRepository.GetClassById(id);
+        return clas;
     }
 
     public async Task<List<Class>> GetAllClasses()
     {
-        throw new NotImplementedException();
+        var classes = await _classRepository.GetAllClasses();
+        return classes;
     }
 
-    public async Task AddStudentToClass(int classId, int studentId)
+    public async Task<ResultDto> AddStudentToClass(int classId, int studentId)
     {
-        throw new NotImplementedException();
+        await _classRepository.AddStudentToClass(classId, studentId);
+        return new ResultDto { IsSuccess = true };
     }
 
-    public async Task DeleteStudentFromClass(int classId, int studentId)
+    public async Task<ResultDto> DeleteStudentFromClass(int classId, int studentId)
     {
-        throw new NotImplementedException();
+        await _classRepository.DeleteStudentFromClass(classId, studentId);
+        return new ResultDto { IsSuccess = true };
     }
 
     public async Task UpdateClass(Class @class)

@@ -10,9 +10,8 @@ public class Class
     
     public double AverageRating { get; set; }
     
-    
     //public string StudentsId { get; set; }
-    public List<Student?> Students { get; set; }
+    public List<Student?> Students { get; set; } = new();
     
     
     //public string TeacherId { get; set; }
