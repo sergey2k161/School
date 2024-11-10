@@ -12,9 +12,11 @@ public class AuthRepository : IAuthRepository
         _context = context;
     }
     
-    public async Task<bool> RegisterStudent(Student student)
+    public async Task<bool> RegisterStudent(Student student, Class @class)
     {
-        await _context.AddAsync(student);
+        var clas = await _context.Classes.FindAsync(@class.Id);
+        await _context.Students.AddAsync(student);
+        clas.CountOfStudents++;
         await _context.SaveChangesAsync();
 
         return true;

@@ -26,6 +26,7 @@ public class AppDbContext : IdentityDbContext<CommonUser, IdentityRole<int>, int
         builder.ApplyConfiguration(new TeacherConfiguration());
         builder.ApplyConfiguration(new ClassConfiguration());
         builder.ApplyConfiguration(new StudentConfiguration());
+        builder.ApplyConfiguration(new CommonUserConfiguration());
 
         base.OnModelCreating(builder);
     }

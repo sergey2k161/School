@@ -12,13 +12,13 @@ public class Class
     
     
     //public string StudentsId { get; set; }
-    public List<Student> Students { get; set; }
+    public List<Student?> Students { get; set; }
     
     
     //public string TeacherId { get; set; }
-    public List<Teacher> Teachers { get; set; }
+    public List<Teacher?> Teachers { get; set; }
     
     
-    public string MainTeacherId { get; set; }
-    public Teacher MainTeacher { get; set; }
+    public int? MainTeacherId { get; set; }
+    public Teacher? MainTeacher { get; set; }
 }

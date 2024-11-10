@@ -10,7 +10,12 @@ public class StudentConfiguration : IEntityTypeConfiguration<Student>
     {
         builder
             .HasKey(s => s.Id);
-
+        
+        builder
+            .HasOne(s => s.CommonUser)
+            .WithOne(cu => cu.Student)
+            .HasForeignKey<Student>(s => s.CommonUserId);
+        
         builder
             .HasOne(s => s.Class)
             .WithMany(c => c.Students);

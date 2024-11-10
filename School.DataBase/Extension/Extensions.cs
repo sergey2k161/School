@@ -11,6 +11,7 @@ public static class Extensions
     {
 
         services.AddScoped<IAuthRepository, AuthRepository>();
+        services.AddScoped<IClassRepository, ClassRepository>();
         // Защита от SQL инъекции "Надо сделать, но впадлу пока что"
         services.AddDbContext<AppDbContext>(x =>
         {

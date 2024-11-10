@@ -11,7 +11,11 @@ public class TeacherConfiguration : IEntityTypeConfiguration<Teacher>
     {
         builder
             .HasKey(t => t.Id);
-
+        builder
+            .HasOne(t => t.CommonUser)
+            .WithOne(cu => cu.Teacher)
+            .HasForeignKey<Teacher>(s => s.CommonUserId);
+        
         builder
             .HasMany(t => t.Disciplines)
             .WithMany(d => d.Teachers);

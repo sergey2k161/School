@@ -4,6 +4,9 @@ public class Teacher
 {
     public int Id { get; set; }
     
+    public int CommonUserId { get; set; }
+    public CommonUser CommonUser { get; set; }
+    
     public string LastName { get; set; }
     
     public string FirstName { get; set; }
