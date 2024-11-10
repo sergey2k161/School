@@ -11,7 +11,7 @@ public class TeacherRepository : ITeacherRepository
 
     public TeacherRepository(AppDbContext context)
     {
-        _context = context:
+        _context = context;
     }
     
     public async Task UpdateTeacher(int id, UpdateTeacherDTO model)
