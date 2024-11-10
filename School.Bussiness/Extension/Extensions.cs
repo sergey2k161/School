@@ -2,6 +2,7 @@
 using School.Bussiness.Services.Interfaces;
 using School.Bussiness.Services.Logic;
 using School.DataBase.Models.BaseModels;
+using School.DataBase.Repositories.Interfaces;
 
 namespace School.Bussiness.Extension;
 
@@ -13,6 +14,8 @@ public static class Extensions
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IClassService, ClassService>();
         services.AddScoped<IDiningRoomService, DiningRoomService>();
+        services.AddScoped<ITeacherService, TeacherService>();
+        services.AddScoped<IStudentService, StudentService>();
         
         
         return services;

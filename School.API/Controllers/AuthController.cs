@@ -55,19 +55,7 @@ public class AuthController : ControllerBase
         // Возвращаем токен клиенту
         return Ok(new { token });
     }
-
-    [HttpPut("student/{id}")]
-    public async Task<IActionResult> UpdateStudent(int id, [FromBody] UpdateStudentDTO model)
-    {
-        await _authService.UpdateStudent(id, model);
-        return Ok();
-    } 
-    [HttpPut("teaher/{id}")]
-    public async Task<IActionResult> UpdateTeacher(int id, [FromBody] UpdateTeacherDTO model)
-    {
-        await _authService.UpdateTeacher(id, model);
-        return Ok();
-    }
+    
     private string GenerateJwtToken(CommonUser user)
     {
         var claims = new[]
@@ -90,6 +78,5 @@ public class AuthController : ControllerBase
 
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
-
     
 }

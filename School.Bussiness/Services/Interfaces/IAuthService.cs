@@ -12,7 +12,4 @@ public interface IAuthService
     Task<ResultDto> RegisterTeacher(RegisterTeacherDTO teacher);
     Task<ResultDto> Login(LoginModel model);
     
-    Task UpdateStudent(int id, UpdateStudentDTO model);
-    Task UpdateTeacher(int id, UpdateTeacherDTO model);
-
 }

@@ -113,14 +113,5 @@ public class AuthService : IAuthService
             User = user // Возвращаем информацию о пользователе для создания токена
         };
     }
-
-    public async Task UpdateStudent(int id, UpdateStudentDTO model)
-    {
-        await _authRepository.UpdateStudent(id, model);
-    }
-
-    public async Task UpdateTeacher(int id, UpdateTeacherDTO model)
-    {
-        await _authRepository.UpdateTeacher(id, model);
-    }
+    
 }
