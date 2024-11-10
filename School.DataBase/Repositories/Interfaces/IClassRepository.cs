@@ -9,6 +9,7 @@ public interface IClassRepository
     Task<List<Class>> GetAllClasses();
     Task AddStudentToClass(int classId, int studentId);
     Task DeleteStudentFromClass(int classId, int studentId);
+    Task UpdateMainTeacher(int classId, int teacherId);
     Task UpdateClass(Class @class);
     Task DeleteClass(int id);
 }

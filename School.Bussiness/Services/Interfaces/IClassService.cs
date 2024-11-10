@@ -10,6 +10,7 @@ public interface IClassService
     Task<List<Class>> GetAllClasses();
     Task<ResultDto> AddStudentToClass(int classId, int studentId);
     Task<ResultDto> DeleteStudentFromClass(int classId, int studentId);
+    Task UpdateMainTeacher(int classId, int teacherId);
     Task UpdateClass(Class @class);
     Task DeleteClass(int id);
 }

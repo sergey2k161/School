@@ -82,6 +82,17 @@ public class ClassRepository : IClassRepository
         }
     }
 
+    public async Task UpdateMainTeacher(int classId, int teacherId)
+    {
+        var teacher = await _context.Teachers.FirstOrDefaultAsync(x => x.Id == teacherId);
+        
+        var clas = await _context.Classes.FirstOrDefaultAsync(x => x.Id == classId);   
+        
+        
+        clas.MainTeacherId = teacherId;
+        await _context.SaveChangesAsync();
+    }
+
     public async Task UpdateClass(Class @class)
     {
         throw new NotImplementedException();

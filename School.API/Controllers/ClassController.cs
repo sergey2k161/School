@@ -42,6 +42,13 @@ public class ClassController : ControllerBase
         return BadRequest(new { errors = result.Errors });
     }
     
+    [HttpPut("UpdateMainTeacher")]
+    public async Task<IActionResult> UpdateMainTeacher([FromBody] UpdateMainTeacherDto model)
+    {
+        await _сlassService.UpdateMainTeacher(model.ClassId, model.TeacherId);
+        return Ok();
+    }
+    
     [HttpGet("ClassByid")]
     public async Task<IActionResult> GetClassById(int id)
     {

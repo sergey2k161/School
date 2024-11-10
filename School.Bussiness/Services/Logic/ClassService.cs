@@ -50,6 +50,11 @@ public class ClassService : IClassService
         return new ResultDto { IsSuccess = true };
     }
 
+    public async Task UpdateMainTeacher(int classId, int teacherId)
+    {
+        await _classRepository.UpdateMainTeacher(classId, teacherId);
+    }
+
     public async Task UpdateClass(Class @class)
     {
         throw new NotImplementedException();
