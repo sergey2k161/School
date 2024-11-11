@@ -13,6 +13,18 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDataBase();
 builder.Services.AddBussiness();
 
+// Добавление CORS политики
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowLocalhost3000", policy =>
+    {
+        policy.WithOrigins("http://localhost:3000") // Указываем URL фронтенда
+            .AllowAnyMethod() // Разрешаем любые HTTP методы (GET, POST, и т.д.)
+            .AllowAnyHeader() // Разрешаем любые заголовки
+            .AllowCredentials(); // Разрешаем отправку куки
+    });
+});
+
 builder.Services.AddIdentity<CommonUser, IdentityRole<int>>(options =>
     {
         options.Password.RequireDigit = true;
@@ -70,7 +82,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors("AllowLocalhost3000");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
