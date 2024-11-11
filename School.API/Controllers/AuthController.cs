@@ -52,9 +52,20 @@ public class AuthController : ControllerBase
         // Генерируем токен, передавая пользователя
         var token = GenerateJwtToken(result.User);
 
-        // Возвращаем токен клиенту
-        return Ok(new { token });
+        // Устанавливаем токен в куки
+        var cookieOptions = new CookieOptions
+        {
+            HttpOnly = true, // Обеспечивает недоступность куки через JavaScript
+            Secure = true,   // Использовать только через HTTPS
+            SameSite = SameSiteMode.Strict, // Защита от CSRF
+            Expires = DateTime.UtcNow.AddMinutes(60) // Устанавливаем время жизни куки
+        };
+        Response.Cookies.Append("AuthToken", token, cookieOptions);
+
+        // Возвращаем успешный результат
+        return Ok(new { token, message = "Login successful" });
     }
+
     
     private string GenerateJwtToken(CommonUser user)
     {

@@ -48,11 +48,15 @@ builder.Services.AddAuthentication(options =>
     {
         options.TokenValidationParameters = new TokenValidationParameters
         {
+            ValidateIssuer = true, // Добавьте если у вас есть точный Issuer
+            ValidateAudience = true, // Добавьте если у вас есть точный Audience
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
         };
-        
+
         // Обработка токена из куки
         options.Events = new JwtBearerEvents
         {
