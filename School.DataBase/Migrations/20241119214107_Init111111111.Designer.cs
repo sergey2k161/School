@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using School.DataBase;
@@ -11,9 +12,11 @@ using School.DataBase;
 namespace School.DataBase.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241119214107_Init111111111")]
+    partial class Init111111111
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -692,7 +695,7 @@ namespace School.DataBase.Migrations
                         .IsRequired();
 
                     b.HasOne("School.DataBase.Models.BaseModels.Teacher", "Teacher")
-                        .WithMany("Marks")
+                        .WithMany()
                         .HasForeignKey("TeacherId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -792,8 +795,6 @@ namespace School.DataBase.Migrations
             modelBuilder.Entity("School.DataBase.Models.BaseModels.Teacher", b =>
                 {
                     b.Navigation("MainClass");
-
-                    b.Navigation("Marks");
 
                     b.Navigation("Schedules");
                 });

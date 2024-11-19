@@ -23,6 +23,8 @@ public class Student
     
     public double? Rating { get; set; }
     
+    public List<Mark> Marks { get; set; }
+
     public int? ClassId { get; set; }
     public Class? Class { get; set; }
     

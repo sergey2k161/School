@@ -28,4 +28,11 @@ public class TeacherController : ControllerBase
         await _teacherService.UpdateTeacher(id, model);
         return Ok();
     }
+    
+    [HttpPost("api/marks")]
+    public async Task<IActionResult> AddMark([FromBody] AddMarkDTO model)
+    {
+        await _teacherService.AddMark(model);
+        return Ok();
+    }
 }

@@ -28,5 +28,15 @@ public class StudentController : ControllerBase
         await _studentService.UpdateStudent(id, model);
         return Ok();
     } 
+    
+    
+    
+    [HttpPost("api/marks")]
+    public async Task<IActionResult> AddMark([FromBody] AddMarkDTO model)
+    {
+        await _studentService.AddMark(model);
+        return Ok();
+    }
+
 
 }

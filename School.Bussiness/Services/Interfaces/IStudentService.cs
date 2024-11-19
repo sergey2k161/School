@@ -7,5 +7,7 @@ public interface IStudentService
 {
     Task UpdateStudent(int id, UpdateStudentDTO model);
     Task<Student> GetStudent(int id);
+    
+    Task AddMark(AddMarkDTO model);
 
 }

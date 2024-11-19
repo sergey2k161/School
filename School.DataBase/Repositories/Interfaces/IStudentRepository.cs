@@ -7,4 +7,8 @@ public interface IStudentRepository
 {
     Task UpdateStudent(int id, UpdateStudentDTO model);
     Task<Student> GetStudent(int id);
+    
+    Task UpdateStudentRating(int studentId);
+
+    Task AddMark(Mark mark);
 }

@@ -27,6 +27,8 @@ public class AppDbContext : IdentityDbContext<CommonUser, IdentityRole<int>, int
     
     public DbSet<Discipline> Disciplines { get; set; }
     
+    public DbSet<Mark> Marks { get; set; }
+    
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyConfiguration(new TeacherConfiguration());
@@ -34,6 +36,7 @@ public class AppDbContext : IdentityDbContext<CommonUser, IdentityRole<int>, int
         builder.ApplyConfiguration(new StudentConfiguration());
         builder.ApplyConfiguration(new CommonUserConfiguration());
         builder.ApplyConfiguration(new ScheduleConfiguration());
+        builder.ApplyConfiguration(new MarkConfiguration());
 
         base.OnModelCreating(builder);
     }

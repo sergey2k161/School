@@ -22,6 +22,7 @@ public class Teacher
     public string? Email { get; set; }
     
     public double? Rating { get; set; }
+    public List<Mark> Marks { get; set; } = [];
     
     // Рабочая информация
     

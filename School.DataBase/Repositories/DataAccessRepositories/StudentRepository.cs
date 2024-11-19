@@ -25,8 +25,8 @@ public class StudentRepository : IStudentRepository
                 .SetProperty(d => d.Patronymic, model.Patronymic)
                 .SetProperty(d => d.BirthDate, model.BirthDate)
                 .SetProperty(d => d.PhoneNumber, model.PhoneNumber)
-                .SetProperty(d => d.PhotoPath, model.PhotoPath)
-                .SetProperty(d => d.Rating, model.Rating));
+                .SetProperty(d => d.PhotoPath, model.PhotoPath));
+                //.SetProperty(d => d.Rating, model.Rating));
         
         await _context.Users
             .Where(x => x.Id == id)
@@ -40,4 +40,23 @@ public class StudentRepository : IStudentRepository
         return await _context.Students
             .FirstOrDefaultAsync(x => x.Id == id);
     }
+    
+    public async Task AddMark(Mark mark)
+    {
+        await _context.Marks.AddAsync(mark);
+        await _context.SaveChangesAsync();
+    }
+    
+    public async Task UpdateStudentRating(int studentId)
+    {
+        // Рассчитываем средний рейтинг напрямую в базе данных
+        var averageRating = await _context.Marks
+            .Where(m => m.StudentId == studentId)
+            .AverageAsync(m => (double?)m.Value) ?? 0; // Если оценок нет, рейтинг равен 0
+
+        await _context.Students
+            .Where(s => s.Id == studentId)
+            .ExecuteUpdateAsync(s => s.SetProperty(st => st.Rating, averageRating));
+    }
+
 }
