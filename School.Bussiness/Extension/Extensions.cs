@@ -16,7 +16,9 @@ public static class Extensions
         services.AddScoped<IDiningRoomService, DiningRoomService>();
         services.AddScoped<ITeacherService, TeacherService>();
         services.AddScoped<IStudentService, StudentService>();
-        
+        services.AddScoped<IScheduleService, ScheduleService>();
+        services.AddScoped<ICabinetService, CabinetService>();     
+        services.AddScoped<IDisciplineService, DisciplineService>();
         
         return services;
     }

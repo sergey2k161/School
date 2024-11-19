@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using School.DataBase;
@@ -11,9 +12,11 @@ using School.DataBase;
 namespace School.DataBase.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241112232902_Init111")]
+    partial class Init111
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -199,23 +202,6 @@ namespace School.DataBase.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("School.DataBase.Models.BaseModels.Cabinet", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Cabinets");
-                });
-
             modelBuilder.Entity("School.DataBase.Models.BaseModels.Class", b =>
                 {
                     b.Property<int>("Id")
@@ -378,12 +364,12 @@ namespace School.DataBase.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("TeacherId")
+                    b.Property<int>("TeacherId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Disciplines");
+                    b.ToTable("Discipline");
                 });
 
             modelBuilder.Entity("School.DataBase.Models.BaseModels.Equipment", b =>
@@ -404,45 +390,6 @@ namespace School.DataBase.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Equipments");
-                });
-
-            modelBuilder.Entity("School.DataBase.Models.BaseModels.Schedule", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CabinetId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("ClassId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("DisciplineId")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("EndTime")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("StartTime")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("TeacherId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CabinetId");
-
-                    b.HasIndex("ClassId");
-
-                    b.HasIndex("DisciplineId");
-
-                    b.HasIndex("TeacherId");
-
-                    b.ToTable("Schedules");
                 });
 
             modelBuilder.Entity("School.DataBase.Models.BaseModels.Student", b =>
@@ -552,9 +499,32 @@ namespace School.DataBase.Migrations
                     b.ToTable("Teachers");
                 });
 
+            modelBuilder.Entity("School.DataBase.Models.Cabinet", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CountOfPlaces")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Number")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("TeacherId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Cabinet");
+                });
+
             modelBuilder.Entity("CabinetTeacher", b =>
                 {
-                    b.HasOne("School.DataBase.Models.BaseModels.Cabinet", null)
+                    b.HasOne("School.DataBase.Models.Cabinet", null)
                         .WithMany()
                         .HasForeignKey("CabinetsId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -657,41 +627,6 @@ namespace School.DataBase.Migrations
                     b.Navigation("MainTeacher");
                 });
 
-            modelBuilder.Entity("School.DataBase.Models.BaseModels.Schedule", b =>
-                {
-                    b.HasOne("School.DataBase.Models.BaseModels.Cabinet", "Cabinet")
-                        .WithMany("Schedules")
-                        .HasForeignKey("CabinetId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("School.DataBase.Models.BaseModels.Class", "Class")
-                        .WithMany("Schedules")
-                        .HasForeignKey("ClassId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("School.DataBase.Models.BaseModels.Discipline", "Discipline")
-                        .WithMany()
-                        .HasForeignKey("DisciplineId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("School.DataBase.Models.BaseModels.Teacher", "Teacher")
-                        .WithMany("Schedules")
-                        .HasForeignKey("TeacherId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Cabinet");
-
-                    b.Navigation("Class");
-
-                    b.Navigation("Discipline");
-
-                    b.Navigation("Teacher");
-                });
-
             modelBuilder.Entity("School.DataBase.Models.BaseModels.Student", b =>
                 {
                     b.HasOne("School.DataBase.Models.BaseModels.Class", "Class")
@@ -720,15 +655,8 @@ namespace School.DataBase.Migrations
                     b.Navigation("CommonUser");
                 });
 
-            modelBuilder.Entity("School.DataBase.Models.BaseModels.Cabinet", b =>
-                {
-                    b.Navigation("Schedules");
-                });
-
             modelBuilder.Entity("School.DataBase.Models.BaseModels.Class", b =>
                 {
-                    b.Navigation("Schedules");
-
                     b.Navigation("Students");
                 });
 
@@ -742,8 +670,6 @@ namespace School.DataBase.Migrations
             modelBuilder.Entity("School.DataBase.Models.BaseModels.Teacher", b =>
                 {
                     b.Navigation("MainClass");
-
-                    b.Navigation("Schedules");
                 });
 #pragma warning restore 612, 618
         }

@@ -21,12 +21,19 @@ public class AppDbContext : IdentityDbContext<CommonUser, IdentityRole<int>, int
     
     public DbSet<Student> Students { get; set; }
     
+    public DbSet<Schedule> Schedules { get; set; }
+    
+    public DbSet<Cabinet> Cabinets { get; set; }
+    
+    public DbSet<Discipline> Disciplines { get; set; }
+    
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyConfiguration(new TeacherConfiguration());
         builder.ApplyConfiguration(new ClassConfiguration());
         builder.ApplyConfiguration(new StudentConfiguration());
         builder.ApplyConfiguration(new CommonUserConfiguration());
+        builder.ApplyConfiguration(new ScheduleConfiguration());
 
         base.OnModelCreating(builder);
     }

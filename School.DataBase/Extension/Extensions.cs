@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using School.DataBase.Models.BaseModels;
 using School.DataBase.Repositories.DataAccessRepositories;
 using School.DataBase.Repositories.Interfaces;
 
@@ -15,10 +16,13 @@ public static class Extensions
         services.AddScoped<IDiningRoomRepository, DiningRoomRepository>();
         services.AddScoped<ITeacherRepository, TeacherRepository>();
         services.AddScoped<IStudentRepository, StudentRepository>();
+        services.AddScoped<IScheduleRepository, ScheduleRepository>();
+        services.AddScoped<ICabinetRepository, CabinetRepository>();
+        services.AddScoped<IDisciplineRepository, DisciplineRepository>();
         // Защита от SQL инъекции "Надо сделать, но впадлу пока что"
         services.AddDbContext<AppDbContext>(x =>
         {
-            x.UseNpgsql("Host=localhost;Database=School;Username=sergey;Password=1618");
+            x.UseNpgsql("Host=localhost;Database=School1;Username=sergey;Password=1618");
         });
         return services;
     }

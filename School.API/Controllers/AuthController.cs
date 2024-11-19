@@ -55,8 +55,8 @@ public class AuthController : ControllerBase
         // Устанавливаем токен в куки
         var cookieOptions = new CookieOptions
         {
-            HttpOnly = true, // Обеспечивает недоступность куки через JavaScript
-            Secure = true,   // Использовать только через HTTPS
+            HttpOnly = false, // Обеспечивает недоступность куки через JavaScript
+            Secure = false,   // Использовать только через HTTPS
             SameSite = SameSiteMode.Strict, // Защита от CSRF
             Expires = DateTime.UtcNow.AddMinutes(60) // Устанавливаем время жизни куки
         };
@@ -69,13 +69,31 @@ public class AuthController : ControllerBase
     
     private string GenerateJwtToken(CommonUser user)
     {
-        var claims = new[]
+        var claims = new List<Claim>
         {
             new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()) // Convert Id to string
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
-    
+
+        // Если у пользователя есть связь с Student, добавляем роль 'student' в токен
+        if (user.StudentId.HasValue)
+        {
+            claims.Add(new Claim(ClaimTypes.Role, "student"));
+            claims.Add(new Claim("studentId", user.StudentId.ToString())); // Добавляем ID студента
+        }
+        // Если у пользователя есть связь с Teacher, добавляем роль 'teacher' в токен
+        else if (user.TeacherId.HasValue)
+        {
+            claims.Add(new Claim(ClaimTypes.Role, "teacher"));
+            claims.Add(new Claim("teacherId", user.TeacherId.ToString())); // Добавляем ID преподавателя
+        }
+        // Если у пользователя нет связи с Student или Teacher, то это обычный пользователь
+        else
+        {
+            claims.Add(new Claim(ClaimTypes.Role, "commonuser"));
+        }
+
+        // Генерация ключа для токена
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
@@ -89,5 +107,8 @@ public class AuthController : ControllerBase
 
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
+
+
+
     
 }

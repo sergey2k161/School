@@ -8,6 +8,6 @@ public class Discipline
     
     public string Description { get; set; }
     
-    public int TeacherId { get; set; }
+    public int? TeacherId { get; set; }
     public List<Teacher> Teachers { get; set; }
 }

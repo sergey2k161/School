@@ -16,12 +16,12 @@ builder.Services.AddBussiness();
 // Добавление CORS политики
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowLocalhost3000", policy =>
+    options.AddPolicy("AllowAllLocalhost", policy =>
     {
-        policy.WithOrigins("http://localhost:3000") // Указываем URL фронтенда
-            .AllowAnyMethod() // Разрешаем любые HTTP методы (GET, POST, и т.д.)
-            .AllowAnyHeader() // Разрешаем любые заголовки
-            .AllowCredentials(); // Разрешаем отправку куки
+        policy.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost") // Разрешаем любые локальные источники
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials();
     });
 });
 
@@ -86,7 +86,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseCors("AllowLocalhost3000");
+app.UseCors("AllowAllLocalhost");
+
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
