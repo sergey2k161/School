@@ -31,38 +31,55 @@ public class AuthService : IAuthService
         return await _userManager.CheckPasswordAsync(user, password);
     }
 
-    public async Task<ResultDto> RegisterStudent(RegisterStudentDTO model)
+    public async Task<ResultDto> RegisterStudents(RegisterStudentsDTO model)
     {
-        var user = new CommonUser
+        var errors = new List<string>();
+
+        foreach (var studentModel in model.Students)
         {
-            Email = model.Email,
-            UserName = model.Email
-        };
-        
-        var result = await _userManager.CreateAsync(user, model.Password);
-        
-        if (!result.Succeeded)
-        {
-            return new ResultDto { IsSuccess = false, Errors = result.Errors.Select(e => e.Description).ToList() };
+            var user = new CommonUser
+            {
+                Email = studentModel.Email,
+                UserName = studentModel.Email
+            };
+
+            var result = await _userManager.CreateAsync(user, studentModel.Password);
+
+            if (!result.Succeeded)
+            {
+                // Добавляем ошибки в список
+                errors.AddRange(result.Errors.Select(e => e.Description));
+                continue;  // Переходим к следующему студенту
+            }
+
+            var student = new Student
+            {
+                CommonUserId = user.Id,
+                Email = studentModel.Email,
+                LastName = studentModel.LastName,
+                FirstName = studentModel.FirstName,
+                Patronymic = studentModel.Patronymic,
+                BirthDate = studentModel.BirthDate,
+                ClassId = studentModel.ClassId,
+                Gender = studentModel.Gender
+            };
+
+            // Регистрация студента в классе
+            await _authRepository.RegisterStudent(student, await _classRepository.GetClassById(studentModel.ClassId));
+
+            user.StudentId = student.Id;
+            await _userManager.UpdateAsync(user);
         }
-        var student = new Student
+
+        // Если есть ошибки, возвращаем их
+        if (errors.Any())
         {
-            CommonUserId = user.Id,
-            Email = model.Email,
-            LastName = model.LastName,
-            FirstName = model.FirstName,
-            Patronymic = model.Patronymic,
-            BirthDate = model.BirthDate,
-            ClassId = model.ClassId,
-            Gender = model.Gender
-        };
-        
-        await _authRepository.RegisterStudent(student, await _classRepository.GetClassById(model.ClassId));
-        user.StudentId = student.Id;
-        await _userManager.UpdateAsync(user);
-        
+            return new ResultDto { IsSuccess = false, Errors = errors };
+        }
+
         return new ResultDto { IsSuccess = true };
     }
+
 
     public async Task<ResultDto> RegisterTeacher(RegisterTeacherDTO model)
     {

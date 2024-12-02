@@ -19,6 +19,5 @@ public class ClassConfiguration : IEntityTypeConfiguration<Class>
             .HasMany(c => c.Students)
             .WithOne(s => s.Class)
             .HasForeignKey(s => s.ClassId);
-
     }
 }

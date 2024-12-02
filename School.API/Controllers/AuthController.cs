@@ -27,13 +27,19 @@ public class AuthController : ControllerBase
     }
     
     [Authorize(Roles = "admin")]
-    [HttpPost("student")]
-    public async Task<IActionResult> RegisterStudent([FromBody] RegisterStudentDTO model)
+    [HttpPost("students")]
+    public async Task<IActionResult> RegisterStudents([FromBody] RegisterStudentsDTO model)
     {
-        var result = await _authService.RegisterStudent(model);
+        var result = await _authService.RegisterStudents(model);
 
-        return Ok(result);
+        if (result.IsSuccess)
+        {
+            return Ok(result);
+        }
+
+        return BadRequest(result.Errors);  // Возвращаем ошибки, если регистрация не удалась
     }
+
     
     [Authorize(Roles = "admin")]
     [HttpPost("teacher")]

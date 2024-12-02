@@ -8,7 +8,7 @@ public interface IAuthService
 {
     Task<CommonUser?> FindByEmailAsync(string email);
     Task<bool> CheckPasswordAsync(CommonUser user, string password);
-    Task<ResultDto> RegisterStudent(RegisterStudentDTO student);
+    Task<ResultDto> RegisterStudents(RegisterStudentsDTO student);
     Task<ResultDto> RegisterTeacher(RegisterTeacherDTO teacher);
     Task<ResultDto> Login(LoginModel model);
     
