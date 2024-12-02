@@ -1,9 +1,12 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
+using System.Runtime.InteropServices;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using School.Bussiness.Services.Interfaces;
+using School.DataBase.Extension;
 using School.DataBase.Models.BaseModels;
 using School.DataBase.Models.DTO;
 
@@ -22,7 +25,8 @@ public class AuthController : ControllerBase
         _authService = authService;
         _configuration = configuration;
     }
-
+    
+    [Authorize(Roles = "admin")]
     [HttpPost("student")]
     public async Task<IActionResult> RegisterStudent([FromBody] RegisterStudentDTO model)
     {
@@ -31,6 +35,7 @@ public class AuthController : ControllerBase
         return Ok(result);
     }
     
+    [Authorize(Roles = "admin")]
     [HttpPost("teacher")]
     public async Task<IActionResult> RegisterTeacher([FromBody] RegisterTeacherDTO model)
     {
@@ -86,6 +91,12 @@ public class AuthController : ControllerBase
         {
             claims.Add(new Claim(ClaimTypes.Role, "teacher"));
             claims.Add(new Claim("teacherId", user.TeacherId.ToString())); // Добавляем ID преподавателя
+        }
+        // Если у пользователя есть связь с Admin, добавляем роль 'admin' в токен
+        else if (user.AdminId.HasValue)
+        {
+            claims.Add(new Claim(ClaimTypes.Role, "admin"));
+            claims.Add(new Claim("adminId", user.AdminId.ToString())); // Добавляем ID преподавателя
         }
         // Если у пользователя нет связи с Student или Teacher, то это обычный пользователь
         else

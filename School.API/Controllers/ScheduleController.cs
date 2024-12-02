@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using School.Bussiness.Services.Interfaces;
 using School.DataBase.Models.DTO;
 
@@ -57,6 +58,8 @@ public class ScheduleController : ControllerBase
         var schedules = await _scheduleService.GetAllSchedulesAsync();
         return Ok(schedules);
     }
+
+    [Authorize(Roles = "admin")]
     [HttpPost("AddSchedule")]
     public async Task<IActionResult> AddSchedule(ScheduleDto schedule)
     {
@@ -64,22 +67,19 @@ public class ScheduleController : ControllerBase
         return Ok();
     }
     
+    [Authorize(Roles = "admin")]
     [HttpPut("UpdateSchedule/{id}")]
     public async Task<IActionResult> UpdateSchedule(int id)
     {
         await _scheduleService.UpdateScheduleAsync(id);
         return Ok();
     }
+    
+    [Authorize(Roles = "admin")]
     [HttpDelete("RemoveSchedule/{id}")]
     public async Task<IActionResult> RemoveSchedule(int id)
     {
         await _scheduleService.RemoveScheduleAsync(id);
         return Ok();
     }
-    
-    
-    
-    
-    
-    
 }

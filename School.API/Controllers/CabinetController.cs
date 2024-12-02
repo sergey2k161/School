@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using School.Bussiness.Services.Interfaces;
 using School.DataBase.Models.BaseModels;
 using School.DataBase.Models.DTO;
@@ -22,6 +23,7 @@ public class CabinetController : ControllerBase
         return await _cabinetService.GetAllCabinets();
     }
 
+    [Authorize(Roles = "admin")]
     [HttpPost]
     public async Task<IActionResult> CreateCabinet(CabinetDto model)
     {
@@ -29,6 +31,7 @@ public class CabinetController : ControllerBase
         return Ok();
     }
     
+    [Authorize(Roles = "admin")]
     [HttpPut]
     public async Task<IActionResult> UpdateCabinet(int id, CabinetDto model)
     {
@@ -36,6 +39,7 @@ public class CabinetController : ControllerBase
         return Ok();
     }
     
+    [Authorize(Roles = "admin")]
     [HttpDelete]
     public async Task<IActionResult> DeleteCabinet(int id)
     {

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using School.Bussiness.Services.Interfaces;
 using School.DataBase.Models.BaseModels;
 using School.DataBase.Repositories.Interfaces;
@@ -22,6 +23,7 @@ public class DisciplineController : ControllerBase
         return await _disciplineService.GetAllDisciplines();
     }
     
+    [Authorize(Roles = "admin")]
     [HttpPost]
     public async Task<IActionResult> CreateDiscipline([FromBody]DisciplineDto model)
     {
@@ -29,6 +31,7 @@ public class DisciplineController : ControllerBase
         return Ok();
     }
     
+    [Authorize(Roles = "admin")]
     [HttpPut]
     public async Task<IActionResult> UpdateDiscipline(int id, [FromBody]DisciplineDto model)
     {
@@ -36,6 +39,7 @@ public class DisciplineController : ControllerBase
         return Ok();
     }
     
+    [Authorize(Roles = "admin")]
     [HttpDelete]
     public async Task<IActionResult> DeleteDiscipline(int id)
     {

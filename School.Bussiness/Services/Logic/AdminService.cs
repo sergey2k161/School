@@ -30,7 +30,13 @@ public class AdminService: IAdminService
         {
             throw new Exception($"Error creating user: {string.Join(", ", result.Errors.Select(e => e.Description))}");
         }
-
+        
+        var roleResult = await _userManager.AddToRoleAsync(user, "Admin");
+        if (!roleResult.Succeeded)
+        {
+            throw new Exception($"Error adding user to role: {string.Join(", ", roleResult.Errors.Select(e => e.Description))}");
+        }
+        
         // Создаём администратора без привязки к роли
         var admin = new Admin
         {

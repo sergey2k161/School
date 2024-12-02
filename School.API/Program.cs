@@ -38,7 +38,34 @@ builder.Services.AddIdentity<CommonUser, IdentityRole<int>>(options =>
 
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+        Description = "Введите 'Bearer' [пробел] и ваш токен"
+    });
+
+    c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+    {
+        {
+            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+            {
+                Reference = new Microsoft.OpenApi.Models.OpenApiReference
+                {
+                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] {}
+        }
+    });
+});
+
 builder.Services.AddAuthentication(options =>
     {
         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -46,13 +73,16 @@ builder.Services.AddAuthentication(options =>
     })
     .AddJwtBearer(options =>
     {
+        options.SaveToken = true;
         options.TokenValidationParameters = new TokenValidationParameters
         {
-            ValidateIssuer = true, // Добавьте если у вас есть точный Issuer
-            ValidateAudience = true, // Добавьте если у вас есть точный Audience
-            ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            ValidAudience = builder.Configuration["Jwt:Audience"],
-            ValidateLifetime = true,
+            //ValidateIssuer = true, // Добавьте если у вас есть точный Issuer
+            //ValidateAudience = true, // Добавьте если у вас есть точный Audience
+            // ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            // ValidAudience = builder.Configuration["Jwt:Audience"],
+            // ValidateLifetime = true,
+            ValidateIssuer = false,
+            ValidateAudience = false,
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
         };
@@ -72,13 +102,29 @@ builder.Services.AddAuthentication(options =>
             }
         };
     });
+
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
         options.JsonSerializerOptions.MaxDepth = 64; // You may increase this if necessary
     });
+
 var app = builder.Build();
+
+// Вызов SeedRoles
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        await RoleInitializer.SeedRoles(services);
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error while seeding roles: {ex.Message}");
+    }
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

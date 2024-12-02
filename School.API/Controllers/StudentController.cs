@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using School.Bussiness.Services.Interfaces;
 using School.DataBase.Models.DTO;
 
@@ -22,6 +23,7 @@ public class StudentController : ControllerBase
         return Ok(student);
     }
     
+    [Authorize(Roles = "admin")]
     [HttpPut("student/{id}")]
     public async Task<IActionResult> UpdateStudent(int id, [FromBody] UpdateStudentDTO model)
     {
@@ -29,14 +31,11 @@ public class StudentController : ControllerBase
         return Ok();
     } 
     
-    
-    
+    [Authorize(Roles = "admin, teacher")]
     [HttpPost("api/marks")]
     public async Task<IActionResult> AddMark([FromBody] AddMarkDTO model)
     {
         await _studentService.AddMark(model);
         return Ok();
     }
-
-
 }

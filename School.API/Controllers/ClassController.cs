@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using School.Bussiness.Services.Interfaces;
 using School.DataBase.Models.DTO;
 
@@ -16,6 +17,7 @@ public class ClassController : ControllerBase
         _сlassService = classService;
     }
     
+    [Authorize(Roles = "admin")]
     [HttpPost("create")]
     public async Task<IActionResult> Create([FromBody] CreateClassDTO model)
     {
@@ -24,6 +26,7 @@ public class ClassController : ControllerBase
         return Ok(result);
     }
     
+    [Authorize(Roles = "teacher, admin")]
     [HttpPost("AddStudentToClass")]
     public async Task<IActionResult> AddStudentToClass([FromBody] AddStudentToClassDto model)
     {
@@ -42,6 +45,7 @@ public class ClassController : ControllerBase
         return BadRequest(new { errors = result.Errors });
     }
     
+    [Authorize(Roles = "admin")]
     [HttpPut("UpdateMainTeacher")]
     public async Task<IActionResult> UpdateMainTeacher([FromBody] UpdateMainTeacherDto model)
     {
