@@ -108,6 +108,7 @@ builder.Services.AddControllers()
     {
         options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
         options.JsonSerializerOptions.MaxDepth = 64; // You may increase this if necessary
+        options.JsonSerializerOptions.Converters.Add(new TimeOnlyConverter());
     });
 
 var app = builder.Build();

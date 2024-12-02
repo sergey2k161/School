@@ -1,4 +1,7 @@
-﻿namespace School.DataBase.Models.DTO;
+﻿using System.ComponentModel;
+using System.Text.Json.Serialization;
+
+namespace School.DataBase.Models.DTO;
 
 public class ScheduleDto
 {
@@ -6,12 +9,14 @@ public class ScheduleDto
     
     public int TeacherId { get; set; }
     
+    public string DayOfTheWeek { get; set; }
+    
     public int CabinetId { get; set; }
     
     public int DisciplineId { get; set; }
     
-    public DateTime StartTime { get; set; }
+    public TimeOnly StartTime { get; set; }
     
-    public DateTime EndTime { get; set; }
+    public TimeOnly EndTime { get; set; }
     
 }

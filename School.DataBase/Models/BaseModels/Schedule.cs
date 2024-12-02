@@ -12,13 +12,14 @@ public class Schedule
     
     public Teacher Teacher { get; set; } 
     
+    public string DayOfTheWeek { get; set; }
     public int CabinetId { get; set; } 
     
     public Cabinet Cabinet { get; set; } 
     
-    public DateTime StartTime { get; set; } 
+    public TimeOnly StartTime { get; set; } 
     
-    public DateTime EndTime { get; set; }
+    public TimeOnly EndTime { get; set; }
     
     public int DisciplineId { get; set; }
     

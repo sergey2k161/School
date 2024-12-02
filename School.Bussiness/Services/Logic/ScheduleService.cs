@@ -38,6 +38,7 @@ public class ScheduleService : IScheduleService
         {
             ClassId = model.ClassId,
             TeacherId = model.TeacherId,
+            DayOfTheWeek = model.DayOfTheWeek,
             CabinetId = model.CabinetId,
             DisciplineId = model.DisciplineId,
             StartTime = model.StartTime,

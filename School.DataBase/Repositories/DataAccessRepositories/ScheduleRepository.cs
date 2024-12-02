@@ -64,6 +64,7 @@ public class ScheduleRepository : IScheduleRepository
             .ExecuteUpdateAsync(s => s
                 .SetProperty(d => d.ClassId, schedule.ClassId)
                 .SetProperty(d => d.TeacherId, schedule.TeacherId)
+                .SetProperty(d => d.DayOfTheWeek, schedule.DayOfTheWeek)
                 .SetProperty(d => d.Cabinet, schedule.Cabinet)
                 .SetProperty(d => d.StartTime, schedule.StartTime)
                 .SetProperty(d => d.EndTime, schedule.EndTime));
