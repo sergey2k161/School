@@ -13,4 +13,6 @@ public class CommonUser : IdentityUser<int>
     public string? Employees { get; set; }
     public double? Salary { get; set; }
     public DateOnly? AcceptedDate { get; set; }
+    public int? AdminId { get; set; }
+    public Admin? Admin { get; set; }
 }

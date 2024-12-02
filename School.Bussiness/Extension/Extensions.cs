@@ -19,6 +19,7 @@ public static class Extensions
         services.AddScoped<IScheduleService, ScheduleService>();
         services.AddScoped<ICabinetService, CabinetService>();     
         services.AddScoped<IDisciplineService, DisciplineService>();
+        services.AddScoped<IAdminService, AdminService>();
         
         return services;
     }

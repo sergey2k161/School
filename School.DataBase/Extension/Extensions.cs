@@ -19,10 +19,11 @@ public static class Extensions
         services.AddScoped<IScheduleRepository, ScheduleRepository>();
         services.AddScoped<ICabinetRepository, CabinetRepository>();
         services.AddScoped<IDisciplineRepository, DisciplineRepository>();
+        services.AddScoped<IAdminRepository, AdminRepository>();
         // Защита от SQL инъекции "Надо сделать, но впадлу пока что"
         services.AddDbContext<AppDbContext>(x =>
         {
-            x.UseNpgsql("Host=localhost;Database=School1;Username=sergey;Password=1618");
+            x.UseNpgsql("Host=localhost;Database=School3;Username=sergey;Password=1618");
         });
         return services;
     }

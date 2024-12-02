@@ -20,6 +20,12 @@ public class CommonUserConfiguration : IEntityTypeConfiguration<CommonUser>
             .HasOne(c => c.Student)
             .WithOne(s => s.CommonUser)
             .HasForeignKey<Student>(t => t.CommonUserId);
+        
+        builder
+            .HasOne(c => c.Admin)
+            .WithOne(a => a.CommonUser)
+            .HasForeignKey<Admin>(a => a.CommonUserId);
+
 
     }
 }
