@@ -18,11 +18,23 @@ public class AdminRepository : IAdminRepository
         await _context.Admins.AddAsync(admin);
         await _context.SaveChangesAsync();
     }
-
-    public async Task RemoveAdmin(int id)
+    
+    public async Task RemoveAdmin(int adminId)
     {
-        await _context.Admins
-            .Where(admin => admin.Id == id)
-            .ExecuteDeleteAsync();
+        var admin = await _context.Admins
+            .FirstOrDefaultAsync(a => a.Id == adminId);
+
+        _context.Admins.Remove(admin);
+        
+        var commonUser = await _context.Users
+            .FirstOrDefaultAsync(u => u.Id == admin.CommonUserId);
+
+        if (commonUser != null)
+        {
+            _context.Users.Remove(commonUser);
+        }
+
+        await _context.SaveChangesAsync();
     }
+    
 }

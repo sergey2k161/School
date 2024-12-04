@@ -50,6 +50,7 @@ public class AppDbContext : IdentityDbContext<CommonUser, IdentityRole<int>, int
         builder.ApplyConfiguration(new CommonUserConfiguration());
         builder.ApplyConfiguration(new ScheduleConfiguration());
         builder.ApplyConfiguration(new MarkConfiguration());
+        builder.ApplyConfiguration(new AdminConfiguration());
     }
 
 }
