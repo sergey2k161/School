@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using School.DataBase.Models.BaseModels;
+using School.DataBase.Models.DTO;
 using School.DataBase.Repositories.Interfaces;
 
 namespace School.DataBase.Repositories.DataAccessRepositories;
@@ -12,34 +13,70 @@ public class ScheduleRepository : IScheduleRepository
     {
         _context = context;
     }
-    public async Task<List<Schedule>> GetScheduleByClassAsync(int classId)
+    public async Task<List<ScheduleGetDto>> GetScheduleByClassAsync(int classId)
     {
         return await _context.Schedules
             .Where(s => s.ClassId == classId)
             .Include(s => s.Teacher)
             .Include(s => s.Cabinet)
             .Include(s => s.Discipline)
+            .Include(s => s.Class)
+            .Select(s => new ScheduleGetDto
+            {
+                Id = s.Id,
+                DayOfTheWeek = s.DayOfTheWeek,
+                StartTime = s.StartTime,
+                EndTime = s.EndTime,
+                ClassName = s.Class != null ? s.Class.ClassNumber : null,
+                TeacherName = s.Teacher != null ? $"{s.Teacher.LastName} {s.Teacher.FirstName} {s.Teacher.Patronymic}" : null,
+                CabinetName = s.Cabinet != null ? s.Cabinet.Name : null,
+                DisciplineName = s.Discipline != null ? s.Discipline.Name : null
+            })
             .ToListAsync();
     }
 
-    public async Task<List<Schedule>> GetScheduleByTeacherAsync(int teacherId)
+    public async Task<List<ScheduleGetDto>> GetScheduleByTeacherAsync(int teacherId)
     {
-        return await _context.Schedules 
-            .Where(s => s.TeacherId == teacherId) 
-            .Include(s => s.Class) 
+        return await _context.Schedules
+            .Where(s => s.TeacherId == teacherId)
+            .Include(s => s.Teacher)
             .Include(s => s.Cabinet)
             .Include(s => s.Discipline)
+            .Include(s => s.Class)
+            .Select(s => new ScheduleGetDto
+            {
+                Id = s.Id,
+                DayOfTheWeek = s.DayOfTheWeek,
+                StartTime = s.StartTime,
+                EndTime = s.EndTime,
+                ClassName = s.Class != null ? s.Class.ClassNumber : null,
+                TeacherName = s.Teacher != null ? $"{s.Teacher.LastName} {s.Teacher.FirstName} {s.Teacher.Patronymic}" : null,
+                CabinetName = s.Cabinet != null ? s.Cabinet.Name : null,
+                DisciplineName = s.Discipline != null ? s.Discipline.Name : null
+            })
             .ToListAsync();
     }
     
 
-    public async Task<List<Schedule>> GetScheduleByCabinetAsync(int cabinetId)
+    public async Task<List<ScheduleGetDto>> GetScheduleByCabinetAsync(int cabinetId)
     {
         return await _context.Schedules
             .Where(s => s.CabinetId == cabinetId)
-            .Include(s => s.Class)
             .Include(s => s.Teacher)
+            .Include(s => s.Cabinet)
             .Include(s => s.Discipline)
+            .Include(s => s.Class)
+            .Select(s => new ScheduleGetDto
+            {
+                Id = s.Id,
+                DayOfTheWeek = s.DayOfTheWeek,
+                StartTime = s.StartTime,
+                EndTime = s.EndTime,
+                ClassName = s.Class != null ? s.Class.ClassNumber : null,
+                TeacherName = s.Teacher != null ? $"{s.Teacher.LastName} {s.Teacher.FirstName} {s.Teacher.Patronymic}" : null,
+                CabinetName = s.Cabinet != null ? s.Cabinet.Name : null,
+                DisciplineName = s.Discipline != null ? s.Discipline.Name : null
+            })
             .ToListAsync();
     }
 
@@ -76,9 +113,24 @@ public class ScheduleRepository : IScheduleRepository
             .FirstOrDefaultAsync(s => s.Id == id);
     }
 
-    public async Task<List<Schedule>> GetAllSchedulesAsync()
+    public async Task<List<ScheduleGetDto>> GetAllSchedulesAsync()
     {
         return await _context.Schedules
+            .Include(s => s.Teacher)
+            .Include(s => s.Cabinet)
+            .Include(s => s.Discipline)
+            .Include(s => s.Class)
+            .Select(s => new ScheduleGetDto
+            {
+                Id = s.Id,
+                DayOfTheWeek = s.DayOfTheWeek,
+                StartTime = s.StartTime,
+                EndTime = s.EndTime,
+                ClassName = s.Class != null ? s.Class.ClassNumber : null,
+                TeacherName = s.Teacher != null ? $"{s.Teacher.LastName} {s.Teacher.FirstName} {s.Teacher.Patronymic}" : null,
+                CabinetName = s.Cabinet != null ? s.Cabinet.Name : null,
+                DisciplineName = s.Discipline != null ? s.Discipline.Name : null
+            })
             .ToListAsync();
     }
 

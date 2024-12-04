@@ -51,7 +51,9 @@ public class AuthService : IAuthService
                 errors.AddRange(result.Errors.Select(e => e.Description));
                 continue;  // Переходим к следующему студенту
             }
-
+            
+            await _userManager.AddToRoleAsync(user, "student");
+            
             var student = new Student
             {
                 CommonUserId = user.Id,
@@ -95,6 +97,8 @@ public class AuthService : IAuthService
         {
             return new ResultDto { IsSuccess = false, Errors = result.Errors.Select(e => e.Description).ToList() };
         }
+        
+        await _userManager.AddToRoleAsync(user, "teacher");
         
         var teacher = new Teacher
         {

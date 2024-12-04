@@ -37,7 +37,7 @@ public class AuthController : ControllerBase
             return Ok(result);
         }
 
-        return BadRequest(result.Errors);  // Возвращаем ошибки, если регистрация не удалась
+        return BadRequest(result.Errors); 
     }
 
     

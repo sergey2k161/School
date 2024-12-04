@@ -32,6 +32,7 @@ public class AdminService: IAdminService
         }
         
         var roleResult = await _userManager.AddToRoleAsync(user, "Admin");
+        
         if (!roleResult.Succeeded)
         {
             throw new Exception($"Error adding user to role: {string.Join(", ", roleResult.Errors.Select(e => e.Description))}");

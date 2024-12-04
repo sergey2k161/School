@@ -5,11 +5,11 @@ namespace School.Bussiness.Services.Interfaces;
 
 public interface IScheduleService
 {
-    Task<List<Schedule>> GetScheduleByClassAsync(int classId);
+    Task<List<ScheduleGetDto>> GetScheduleByClassAsync(int classId);
     
-    Task<List<Schedule>> GetScheduleByTeacherAsync(int teacherId);
+    Task<List<ScheduleGetDto>> GetScheduleByTeacherAsync(int teacherId);
     
-    Task<List<Schedule>> GetScheduleByCabinetAsync(int cabinetId);
+    Task<List<ScheduleGetDto>> GetScheduleByCabinetAsync(int cabinetId);
     
     Task AddScheduleAsync(ScheduleDto model);
     
@@ -19,7 +19,7 @@ public interface IScheduleService
     
     Task<Schedule> GetScheduleAsync(int id);
     
-    Task<List<Schedule>> GetAllSchedulesAsync();
+    Task<List<ScheduleGetDto>> GetAllSchedulesAsync();
     
     Task<List<Schedule>> GetSchedulesByStudentAsync(int studentId);
 }
