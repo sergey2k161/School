@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using School.DataBase.Models.BaseModels;
+using School.DataBase.Models.DTO;
 using School.DataBase.Repositories.Interfaces;
 
 namespace School.DataBase.Repositories.DataAccessRepositories;
@@ -19,16 +20,56 @@ public class ClassRepository : IClassRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task<Class?> GetClassById(int id)
+    public async Task<ClassGetDto?> GetClassById(int id)
     {
         return await _context.Classes
-            .Include(c => c.Students) // Загрузка связанных студентов
-            .FirstOrDefaultAsync(x => x.Id == id);
+            .Where(c => c.Id == id)
+            .Include(c => c.MainTeacher) // Загрузка навигационного свойства MainTeacher
+            .Include(c => c.Students) // Загрузка навигационного свойства Students
+            .Select(c => new ClassGetDto
+            {
+                Id = c.Id,
+                Name = c.ClassNumber,
+                CountOfStudents = c.CountOfStudents,
+                MainTeacherId = c.MainTeacherId,
+                MainTeacherName = c.MainTeacher != null
+                    ? $"{c.MainTeacher.LastName} {c.MainTeacher.FirstName} {c.MainTeacher.Patronymic}"
+                    : null,
+                Students = c.Students.Select(s => new StudentDto
+                {
+                    Id = s.Id,
+                    LastName = s.LastName,
+                    FirstName = s.FirstName,
+                    Patronymic = s.Patronymic
+                }).ToList()
+            })
+            .SingleOrDefaultAsync();
     }
 
-    public async Task<List<Class>> GetAllClasses()
+
+    public async Task<List<ClassGetDto>?> GetAllClasses()
     {
-        return await _context.Classes.ToListAsync();
+        return await _context.Classes
+            .Include(c => c.MainTeacher) // Загрузка навигационного свойства MainTeacher
+            .Include(c => c.Students) // Загрузка навигационного свойства Students
+            .Select(c => new ClassGetDto
+            {
+                Id = c.Id,
+                Name = c.ClassNumber,
+                CountOfStudents = c.CountOfStudents,
+                MainTeacherId = c.MainTeacherId,
+                MainTeacherName = c.MainTeacher != null
+                    ? $"{c.MainTeacher.LastName} {c.MainTeacher.FirstName} {c.MainTeacher.Patronymic}"
+                    : null,
+                Students = c.Students.Select(s => new StudentDto
+                {
+                    Id = s.Id,
+                    LastName = s.LastName,
+                    FirstName = s.FirstName,
+                    Patronymic = s.Patronymic
+                }).ToList()
+            })
+            .ToListAsync();
     }
 
     public async Task AddStudentToClass(int classId, int studentId)

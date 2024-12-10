@@ -53,13 +53,12 @@ public class ScheduleService : IScheduleService
         await _scheduleRepository.RemoveScheduleAsync(id);
     }
 
-    public async Task UpdateScheduleAsync(int id)
+    public async Task UpdateScheduleAsync(int id, ScheduleGetDto updatedScheduleDto)
     {
-        var schedule = await _scheduleRepository.GetScheduleAsync(id);
-        await _scheduleRepository.UpdateScheduleAsync(schedule);
+        await _scheduleRepository.UpdateScheduleAsync(updatedScheduleDto);
     }
 
-    public async Task<Schedule> GetScheduleAsync(int id)
+    public async Task<ScheduleGetDto> GetScheduleAsync(int id)
     {
         var schedule = await _scheduleRepository.GetScheduleAsync(id);
         return schedule;
@@ -71,7 +70,7 @@ public class ScheduleService : IScheduleService
         return schedules;
     }
 
-    public async Task<List<Schedule>> GetSchedulesByStudentAsync(int studentId)
+    public async Task<List<ScheduleGetDto>> GetSchedulesByStudentAsync(int studentId)
     {
         var schedules = await _scheduleRepository.GetSchedulesByStudentAsync(studentId);
         return schedules;

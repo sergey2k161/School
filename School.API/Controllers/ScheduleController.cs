@@ -68,10 +68,10 @@ public class ScheduleController : ControllerBase
     }
     
     [Authorize(Roles = "admin")]
-    [HttpPut("UpdateSchedule/{id}")]
-    public async Task<IActionResult> UpdateSchedule(int id)
+    [HttpPut("UpdateSchedule")]
+    public async Task<IActionResult> UpdateSchedule([FromBody] ScheduleGetDto schedule, int id)
     {
-        await _scheduleService.UpdateScheduleAsync(id);
+        await _scheduleService.UpdateScheduleAsync(id, schedule);
         return Ok();
     }
     

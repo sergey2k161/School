@@ -14,7 +14,7 @@ public class AuthRepository : IAuthRepository
         _context = context;
     }
     
-    public async Task<bool> RegisterStudent(Student student, Class @class)
+    public async Task<bool> RegisterStudent(Student student, ClassGetDto? @class)
     {
         var clas = await _context.Classes.FindAsync(@class.Id);
         await _context.Students.AddAsync(student);

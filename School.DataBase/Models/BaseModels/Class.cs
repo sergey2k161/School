@@ -15,7 +15,7 @@ public class Class
     
     
     //public string TeacherId { get; set; }
-    public List<Teacher?> Teachers { get; set; }
+   // public List<Teacher?> Teachers { get; set; }
     
     public List<Schedule> Schedules { get; set; }
     public int? MainTeacherId { get; set; }

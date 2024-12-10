@@ -47,17 +47,26 @@ public class TeacherService : ITeacherService
             throw new ArgumentOutOfRangeException(nameof(model.Value), "Mark value must be between 1 and 5.");
         }
 
-        // Создаем новую оценку
-        var mark = new Mark
+        // Проверяем существующую оценку
+        var existingMark = await _teacherRepository.GetMarkAsync(model.StudentId, model.TeacherId);
+        if (existingMark != null)
         {
-            StudentId = model.StudentId,
-            TeacherId = model.TeacherId,
-            Value = model.Value
-        };
-
-        // Сохраняем оценку в базе данных
-        await _teacherRepository.AddMark(mark);
-
+            // Если оценка существует, обновляем её значение
+            existingMark.Value = model.Value;
+            await _teacherRepository.UpdateMarkAsync(existingMark);
+        }
+        else
+        {
+            // Создаем новую оценку
+            var mark = new Mark
+            {
+                StudentId = model.StudentId,
+                TeacherId = model.TeacherId,
+                Value = model.Value
+            };
+            await _teacherRepository.AddMark(mark);
+        }
+        
         // Обновляем рейтинг ученика
         await _teacherRepository.UpdateTeacherRating(model.StudentId);
     }

@@ -14,9 +14,5 @@ public class UpdateTeacherDTO
     
     public string? PhoneNumber { get; set; }
     
-    public string? Email { get; set; }
-    
-    public double? Rating { get; set; }
-    
     public string? Qualification { get; set; }
 }

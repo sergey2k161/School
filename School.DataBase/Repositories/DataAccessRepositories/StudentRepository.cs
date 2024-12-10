@@ -19,19 +19,17 @@ public class StudentRepository : IStudentRepository
         await _context.Students
             .Where(x => x.Id == id)
             .ExecuteUpdateAsync(x => x
-                .SetProperty(d => d.Email, model.Email)
                 .SetProperty(d => d.LastName, model.LastName)
                 .SetProperty(d => d.FirstName, model.FirstName)
                 .SetProperty(d => d.Patronymic, model.Patronymic)
                 .SetProperty(d => d.BirthDate, model.BirthDate)
                 .SetProperty(d => d.PhoneNumber, model.PhoneNumber)
-                .SetProperty(d => d.PhotoPath, model.PhotoPath));
-                //.SetProperty(d => d.Rating, model.Rating));
+                .SetProperty(d => d.PhotoPath, model.PhotoPath)
+                .SetProperty(d => d.PhoneNumberForParents, model.PhoneNumberForParents));
         
         await _context.Users
             .Where(x => x.Id == id)
             .ExecuteUpdateAsync(x => x
-                .SetProperty(u => u.Email, model.Email)
                 .SetProperty(u => u.PhoneNumber, model.PhoneNumber));
     }
 
@@ -47,6 +45,12 @@ public class StudentRepository : IStudentRepository
         await _context.SaveChangesAsync();
     }
     
+    public async Task UpdateMarkAsync(Mark mark)
+    {
+        _context.Marks.Update(mark);
+        await _context.SaveChangesAsync();
+    }
+    
     public async Task UpdateStudentRating(int studentId)
     {
         // Рассчитываем средний рейтинг напрямую в базе данных
@@ -57,6 +61,13 @@ public class StudentRepository : IStudentRepository
         await _context.Students
             .Where(s => s.Id == studentId)
             .ExecuteUpdateAsync(s => s.SetProperty(st => st.Rating, averageRating));
+        
+        await _context.SaveChangesAsync();
     }
 
+    public async Task<Mark?> GetMarkAsync(int studentId, int teacherId)
+    {
+        return await _context.Marks
+            .FirstOrDefaultAsync(m => m.StudentId == studentId && m.TeacherId == teacherId);
+    }
 }

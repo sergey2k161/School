@@ -8,5 +8,5 @@ public class Cabinet
     
     public List<Schedule> Schedules { get; set; }
     
-    public List<Teacher> Teachers { get; set; }
+    //public List<Teacher> Teachers { get; set; }
 }

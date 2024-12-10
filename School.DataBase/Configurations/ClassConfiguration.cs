@@ -11,9 +11,9 @@ public class ClassConfiguration : IEntityTypeConfiguration<Class>
         builder
             .HasKey(c => c.Id);
 
-        builder
-            .HasMany(c => c.Teachers)
-            .WithMany(t => t.Classes);
+        // builder
+        //     .HasMany(c => c.Teachers)
+        //     .WithMany(t => t.Classes);
 
         builder
             .HasMany(c => c.Students)

@@ -16,17 +16,17 @@ public class TeacherConfiguration : IEntityTypeConfiguration<Teacher>
             .WithOne(cu => cu.Teacher)
             .HasForeignKey<Teacher>(t => t.CommonUserId);
         
-        builder
-            .HasMany(t => t.Disciplines)
-            .WithMany(d => d.Teachers);
+        // builder
+        //     .HasMany(t => t.Disciplines)
+        //     .WithMany(d => d.Teachers);
             
-        builder
-            .HasMany(t => t.Classes)
-            .WithMany(c => c.Teachers);
-            
-        builder
-            .HasMany(t => t.Cabinets)
-            .WithMany(c => c.Teachers);
+        // builder
+        //     .HasMany(t => t.Classes)
+        //     .WithMany(c => c.Teachers);
+        //     
+        // builder
+        //     .HasMany(t => t.Cabinets)
+        //     .WithMany(c => c.Teachers);
         
         builder
             .HasOne(t => t.MainClass)

@@ -2,8 +2,6 @@
 
 public class UpdateStudentDTO
 {
-    public string? Email { get; set; }
-    
     public string? LastName { get; set; }
     
     public string? FirstName { get; set; }
@@ -16,5 +14,5 @@ public class UpdateStudentDTO
     
     public string? PhoneNumber { get; set; }
     
-    public double? Rating { get; set; }
+    public string PhoneNumberForParents { get; set; }
 }

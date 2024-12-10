@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using School.DataBase;
@@ -11,9 +12,11 @@ using School.DataBase;
 namespace School.DataBase.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241204224902_testbd3")]
+    partial class testbd3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,6 +24,51 @@ namespace School.DataBase.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("CabinetTeacher", b =>
+                {
+                    b.Property<int>("CabinetsId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("TeachersId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("CabinetsId", "TeachersId");
+
+                    b.HasIndex("TeachersId");
+
+                    b.ToTable("CabinetTeacher");
+                });
+
+            modelBuilder.Entity("ClassTeacher", b =>
+                {
+                    b.Property<int>("ClassesId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("TeachersId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("ClassesId", "TeachersId");
+
+                    b.HasIndex("TeachersId");
+
+                    b.ToTable("ClassTeacher");
+                });
+
+            modelBuilder.Entity("DisciplineTeacher", b =>
+                {
+                    b.Property<int>("DisciplinesId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("TeachersId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("DisciplinesId", "TeachersId");
+
+                    b.HasIndex("TeachersId");
+
+                    b.ToTable("DisciplineTeacher");
+                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<int>", b =>
                 {
@@ -363,6 +411,9 @@ namespace School.DataBase.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int?>("TeacherId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.ToTable("Disciplines");
@@ -424,10 +475,6 @@ namespace School.DataBase.Migrations
 
                     b.Property<int>("CabinetId")
                         .HasColumnType("integer");
-
-                    b.Property<string>("CabinetName")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.Property<int>("ClassId")
                         .HasColumnType("integer");
@@ -566,6 +613,51 @@ namespace School.DataBase.Migrations
                         .IsUnique();
 
                     b.ToTable("Teachers");
+                });
+
+            modelBuilder.Entity("CabinetTeacher", b =>
+                {
+                    b.HasOne("School.DataBase.Models.BaseModels.Cabinet", null)
+                        .WithMany()
+                        .HasForeignKey("CabinetsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("School.DataBase.Models.BaseModels.Teacher", null)
+                        .WithMany()
+                        .HasForeignKey("TeachersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ClassTeacher", b =>
+                {
+                    b.HasOne("School.DataBase.Models.BaseModels.Class", null)
+                        .WithMany()
+                        .HasForeignKey("ClassesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("School.DataBase.Models.BaseModels.Teacher", null)
+                        .WithMany()
+                        .HasForeignKey("TeachersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DisciplineTeacher", b =>
+                {
+                    b.HasOne("School.DataBase.Models.BaseModels.Discipline", null)
+                        .WithMany()
+                        .HasForeignKey("DisciplinesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("School.DataBase.Models.BaseModels.Teacher", null)
+                        .WithMany()
+                        .HasForeignKey("TeachersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>

@@ -9,4 +9,6 @@ public interface ITeacherService
     Task<Teacher> GetTeacher(int id);
 
     Task AddMark(AddMarkDTO model);
+    
+    
 }

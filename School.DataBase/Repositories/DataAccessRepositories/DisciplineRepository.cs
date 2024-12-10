@@ -24,8 +24,7 @@ public class DisciplineRepository : IDisciplineRepository
             .Where(x => x.Id == id)
             .ExecuteUpdateAsync(x => x
                 .SetProperty(d => d.Name, discipline.Name)
-                .SetProperty(d => d.Description, discipline.Description)
-                .SetProperty(d => d.TeacherId, discipline.TeacherId));
+                .SetProperty(d => d.Description, discipline.Description));
     }
 
     public async Task DeleteDiscipline(int id)

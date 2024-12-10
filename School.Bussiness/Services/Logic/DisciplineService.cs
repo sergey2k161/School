@@ -18,8 +18,8 @@ public class DisciplineService : IDisciplineService
         var discipline = new Discipline
         {
             Name = model.Name,
-            Description = model.Description,
-            TeacherId = model.TeacherId
+            Description = model.Description
+            //TeacherId = model.TeacherId
         };
         
         await _disciplineRepository.CreateDiscipline(discipline);

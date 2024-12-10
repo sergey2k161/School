@@ -11,4 +11,8 @@ public interface IStudentRepository
     Task UpdateStudentRating(int studentId);
 
     Task AddMark(Mark mark);
+
+    Task<Mark?> GetMarkAsync(int studentId, int teacherId);
+    
+    Task UpdateMarkAsync(Mark mark);
 }

@@ -26,13 +26,13 @@ public class Teacher
     
     // Рабочая информация
     
-    public List<Discipline?> Disciplines { get; set; } = [];
+    // public List<Discipline?> Disciplines { get; set; } = [];
     
     public List<Schedule> Schedules { get; set; } = [];
-    public List<Class?> Classes { get; set; } = [];
+   // public List<Class?> Classes { get; set; } = [];
     public Class? MainClass { get; set; } // КЛ руковод
     
-    public List<Cabinet?> Cabinets { get; set; } = [];
+    //public List<Cabinet?> Cabinets { get; set; } = [];
     
     public string? Qualification { get; set; }
 }

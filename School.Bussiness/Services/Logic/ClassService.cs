@@ -26,13 +26,13 @@ public class ClassService : IClassService
         return model;
     }
 
-    public async Task<Class?> GetClassById(int id)
+    public async Task<ClassGetDto?> GetClassById(int id)
     {
         var clas = await _classRepository.GetClassById(id);
         return clas;
     }
 
-    public async Task<List<Class>> GetAllClasses()
+    public async Task<List<ClassGetDto>> GetAllClasses()
     {
         var classes = await _classRepository.GetAllClasses();
         return classes;

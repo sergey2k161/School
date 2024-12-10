@@ -23,7 +23,7 @@ public static class Extensions
         // Защита от SQL инъекции "Надо сделать, но впадлу пока что"
         services.AddDbContext<AppDbContext>(x =>
         {
-            x.UseNpgsql("Host=localhost;Database=TestDataBaseSchool;Username=sergey;Password=1618");
+            x.UseNpgsql("Host=localhost;Database=TestDataBaseSchool5421;Username=sergey;Password=1618");
         });
         return services;
     }

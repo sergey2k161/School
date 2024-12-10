@@ -15,11 +15,11 @@ public interface IScheduleRepository
     
     Task RemoveScheduleAsync(int id);
     
-    Task UpdateScheduleAsync(Schedule schedule);
+    Task UpdateScheduleAsync(ScheduleGetDto schedule);
     
-    Task<Schedule> GetScheduleAsync(int id);
+    Task<ScheduleGetDto> GetScheduleAsync(int id);
     
     Task<List<ScheduleGetDto>> GetAllSchedulesAsync();
     
-    Task<List<Schedule>> GetSchedulesByStudentAsync(int studentId);
+    Task<List<ScheduleGetDto>> GetSchedulesByStudentAsync(int studentId);
 }

@@ -9,5 +9,6 @@ public interface IStudentService
     Task<Student> GetStudent(int id);
     
     Task AddMark(AddMarkDTO model);
+    
 
 }

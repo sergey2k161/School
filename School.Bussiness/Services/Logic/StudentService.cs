@@ -46,19 +46,38 @@ public class StudentService : IStudentService
             throw new ArgumentOutOfRangeException(nameof(model.Value), "Mark value must be between 1 and 5.");
         }
 
-        // Создаем новую оценку
-        var mark = new Mark
+        // Проверяем существующую оценку
+        var existingMark = await _studentRepository.GetMarkAsync(model.StudentId, model.TeacherId);
+
+        if (existingMark != null)
         {
-            StudentId = model.StudentId,
-            TeacherId = model.TeacherId,
-            Value = model.Value
-        };
-
-        // Сохраняем оценку в базе данных
-        await _studentRepository.AddMark(mark);
-
+            // Если оценка существует, обновляем её значение
+            existingMark.Value = model.Value;
+            await _studentRepository.UpdateMarkAsync(existingMark);
+        }
+        else
+        {
+            // Если оценки нет, создаем новую
+            var mark = new Mark
+            {
+                StudentId = model.StudentId,
+                TeacherId = model.TeacherId,
+                Value = model.Value
+            };
+            await _studentRepository.AddMark(mark);
+        }
+        
         // Обновляем рейтинг ученика
         await _studentRepository.UpdateStudentRating(model.StudentId);
     }
 
+    public async Task<Mark?> GetMarkAsync(int studentId, int teacherId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task UpdateMark(Mark model)
+    {
+        throw new NotImplementedException();
+    }
 }

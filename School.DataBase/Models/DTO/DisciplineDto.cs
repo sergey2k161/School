@@ -6,5 +6,5 @@ public class DisciplineDto
     
     public string Description { get; set; }
     
-    public int? TeacherId { get; set; }
+    //public int? TeacherId { get; set; }
 }

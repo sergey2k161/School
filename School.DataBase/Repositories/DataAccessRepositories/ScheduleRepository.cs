@@ -49,7 +49,9 @@ public class ScheduleRepository : IScheduleRepository
                 DayOfTheWeek = s.DayOfTheWeek,
                 StartTime = s.StartTime,
                 EndTime = s.EndTime,
+                ClassId = s.ClassId,
                 ClassName = s.Class != null ? s.Class.ClassNumber : null,
+                TeacherId = s.TeacherId,
                 TeacherName = s.Teacher != null ? $"{s.Teacher.LastName} {s.Teacher.FirstName} {s.Teacher.Patronymic}" : null,
                 CabinetName = s.Cabinet != null ? s.Cabinet.Name : null,
                 DisciplineName = s.Discipline != null ? s.Discipline.Name : null
@@ -57,7 +59,6 @@ public class ScheduleRepository : IScheduleRepository
             .ToListAsync();
     }
     
-
     public async Task<List<ScheduleGetDto>> GetScheduleByCabinetAsync(int cabinetId)
     {
         return await _context.Schedules
@@ -72,7 +73,9 @@ public class ScheduleRepository : IScheduleRepository
                 DayOfTheWeek = s.DayOfTheWeek,
                 StartTime = s.StartTime,
                 EndTime = s.EndTime,
+                ClassId = s.ClassId,
                 ClassName = s.Class != null ? s.Class.ClassNumber : null,
+                TeacherId = s.TeacherId,
                 TeacherName = s.Teacher != null ? $"{s.Teacher.LastName} {s.Teacher.FirstName} {s.Teacher.Patronymic}" : null,
                 CabinetName = s.Cabinet != null ? s.Cabinet.Name : null,
                 DisciplineName = s.Discipline != null ? s.Discipline.Name : null
@@ -94,7 +97,7 @@ public class ScheduleRepository : IScheduleRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task UpdateScheduleAsync(Schedule schedule)
+    public async Task UpdateScheduleAsync(ScheduleGetDto schedule)
     {
        await _context.Schedules
             .Where(s => s.Id == schedule.Id)
@@ -102,15 +105,36 @@ public class ScheduleRepository : IScheduleRepository
                 .SetProperty(d => d.ClassId, schedule.ClassId)
                 .SetProperty(d => d.TeacherId, schedule.TeacherId)
                 .SetProperty(d => d.DayOfTheWeek, schedule.DayOfTheWeek)
-                .SetProperty(d => d.Cabinet, schedule.Cabinet)
+                .SetProperty(d => d.CabinetName, schedule.CabinetName)
                 .SetProperty(d => d.StartTime, schedule.StartTime)
                 .SetProperty(d => d.EndTime, schedule.EndTime));
     }
 
-    public async Task<Schedule> GetScheduleAsync(int id)
+    public async Task<ScheduleGetDto> GetScheduleAsync(int id)
     {
+        // return await _context.Schedules
+        //     .FirstOrDefaultAsync(s => s.Id == id);
+        
         return await _context.Schedules
-            .FirstOrDefaultAsync(s => s.Id == id);
+            .Where(s => s.Id == id)
+            .Include(s => s.Teacher)
+            .Include(s => s.Cabinet)
+            .Include(s => s.Discipline)
+            .Include(s => s.Class)
+            .Select(s => new ScheduleGetDto
+            {
+                Id = s.Id,
+                DayOfTheWeek = s.DayOfTheWeek,
+                StartTime = s.StartTime,
+                EndTime = s.EndTime,
+                ClassId = s.ClassId,
+                ClassName = s.Class != null ? s.Class.ClassNumber : null,
+                TeacherId = s.TeacherId,
+                TeacherName = s.Teacher != null ? $"{s.Teacher.LastName} {s.Teacher.FirstName} {s.Teacher.Patronymic}" : null,
+                CabinetName = s.Cabinet != null ? s.Cabinet.Name : null,
+                DisciplineName = s.Discipline != null ? s.Discipline.Name : null
+            })
+            .SingleOrDefaultAsync();
     }
 
     public async Task<List<ScheduleGetDto>> GetAllSchedulesAsync()
@@ -126,7 +150,9 @@ public class ScheduleRepository : IScheduleRepository
                 DayOfTheWeek = s.DayOfTheWeek,
                 StartTime = s.StartTime,
                 EndTime = s.EndTime,
+                ClassId = s.ClassId,
                 ClassName = s.Class != null ? s.Class.ClassNumber : null,
+                TeacherId = s.TeacherId,
                 TeacherName = s.Teacher != null ? $"{s.Teacher.LastName} {s.Teacher.FirstName} {s.Teacher.Patronymic}" : null,
                 CabinetName = s.Cabinet != null ? s.Cabinet.Name : null,
                 DisciplineName = s.Discipline != null ? s.Discipline.Name : null
@@ -134,14 +160,27 @@ public class ScheduleRepository : IScheduleRepository
             .ToListAsync();
     }
 
-    public async Task<List<Schedule>> GetSchedulesByStudentAsync(int studentId)
+    public async Task<List<ScheduleGetDto>> GetSchedulesByStudentAsync(int studentId)
     {
         return await _context.Schedules
             .Where(s => s.Id == studentId)
-            .Include(s => s.Cabinet)
             .Include(s => s.Teacher)
             .Include(s => s.Cabinet)
             .Include(s => s.Discipline)
+            .Include(s => s.Class)
+            .Select(s => new ScheduleGetDto
+            {
+                Id = s.Id,
+                DayOfTheWeek = s.DayOfTheWeek,
+                StartTime = s.StartTime,
+                EndTime = s.EndTime,
+                ClassId = s.ClassId,
+                ClassName = s.Class != null ? s.Class.ClassNumber : null,
+                TeacherId = s.TeacherId,
+                TeacherName = s.Teacher != null ? $"{s.Teacher.LastName} {s.Teacher.FirstName} {s.Teacher.Patronymic}" : null,
+                CabinetName = s.Cabinet != null ? s.Cabinet.Name : null,
+                DisciplineName = s.Discipline != null ? s.Discipline.Name : null
+            })
             .ToListAsync();
     }
 }

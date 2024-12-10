@@ -32,11 +32,11 @@ public class TeacherController : ControllerBase
         return Ok();
     }
     
-    [Authorize(Roles = "admin, student")]
-    [HttpPost("api/marks")]
-    public async Task<IActionResult> AddMark([FromBody] AddMarkDTO model)
-    {
-        await _teacherService.AddMark(model);
-        return Ok();
-    }
+    // [Authorize(Roles = "admin, student")]
+    // [HttpPost("api/marks")]
+    // public async Task<IActionResult> AddMark([FromBody] AddMarkDTO model)
+    // {
+    //     await _teacherService.AddMark(model);
+    //     return Ok();
+    // }
 }
