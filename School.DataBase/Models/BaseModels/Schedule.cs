@@ -14,7 +14,7 @@ public class Schedule
     
     public string DayOfTheWeek { get; set; }
     public int CabinetId { get; set; } 
-    public string CabinetName { get; set; }
+    public string? CabinetName { get; set; }
     
     public Cabinet Cabinet { get; set; } 
     

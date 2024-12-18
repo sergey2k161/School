@@ -9,6 +9,8 @@ public interface IScheduleRepository
     
     Task<List<ScheduleGetDto>> GetScheduleByTeacherAsync(int teacherId);
     
+    Task<List<ScheduleGetDto>> GetSchedulesByStudentAsync(int studentId);
+    
     Task<List<ScheduleGetDto>> GetScheduleByCabinetAsync(int cabinetId);
     
     Task AddScheduleAsync(Schedule schedule);
@@ -21,5 +23,4 @@ public interface IScheduleRepository
     
     Task<List<ScheduleGetDto>> GetAllSchedulesAsync();
     
-    Task<List<ScheduleGetDto>> GetSchedulesByStudentAsync(int studentId);
 }

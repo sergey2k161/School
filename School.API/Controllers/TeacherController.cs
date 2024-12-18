@@ -25,7 +25,7 @@ public class TeacherController : ControllerBase
     }
     
     [Authorize(Roles = "admin")]
-    [HttpPut("teaher/{id}")]
+    [HttpPut("teacher/{id}")]
     public async Task<IActionResult> UpdateTeacher(int id, [FromBody] UpdateTeacherDTO model)
     {
         await _teacherService.UpdateTeacher(id, model);

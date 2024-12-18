@@ -40,7 +40,6 @@ public class AuthController : ControllerBase
         return BadRequest(result.Errors); 
     }
 
-    
     [Authorize(Roles = "admin")]
     [HttpPost("teacher")]
     public async Task<IActionResult> RegisterTeacher([FromBody] RegisterTeacherDTO model)

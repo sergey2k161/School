@@ -25,7 +25,13 @@ public class ScheduleService : IScheduleService
         var schedules = await _scheduleRepository.GetScheduleByTeacherAsync(teacherId);
         return schedules;
     }
-
+    
+    public async Task<List<ScheduleGetDto>> GetSchedulesByStudentAsync(int studentId)
+    {
+        var schedules = await _scheduleRepository.GetSchedulesByStudentAsync(studentId);
+        return schedules;
+    }
+    
     public async Task<List<ScheduleGetDto>> GetScheduleByCabinetAsync(int cabinetId)
     {
         var schedules = await _scheduleRepository.GetScheduleByCabinetAsync(cabinetId);
@@ -70,9 +76,5 @@ public class ScheduleService : IScheduleService
         return schedules;
     }
 
-    public async Task<List<ScheduleGetDto>> GetSchedulesByStudentAsync(int studentId)
-    {
-        var schedules = await _scheduleRepository.GetSchedulesByStudentAsync(studentId);
-        return schedules;
-    }
+    
 }

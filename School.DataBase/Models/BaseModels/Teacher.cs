@@ -22,17 +22,12 @@ public class Teacher
     public string? Email { get; set; }
     
     public double? Rating { get; set; }
+    
     public List<Mark> Marks { get; set; } = [];
     
-    // Рабочая информация
-    
-    // public List<Discipline?> Disciplines { get; set; } = [];
-    
     public List<Schedule> Schedules { get; set; } = [];
-   // public List<Class?> Classes { get; set; } = [];
-    public Class? MainClass { get; set; } // КЛ руковод
     
-    //public List<Cabinet?> Cabinets { get; set; } = [];
+    public Class? MainClass { get; set; } // КЛ руковод
     
     public string? Qualification { get; set; }
 }

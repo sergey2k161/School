@@ -45,8 +45,7 @@ public class ClassRepository : IClassRepository
             })
             .SingleOrDefaultAsync();
     }
-
-
+    
     public async Task<List<ClassGetDto>?> GetAllClasses()
     {
         return await _context.Classes
@@ -106,8 +105,6 @@ public class ClassRepository : IClassRepository
         _context.Classes.Update(newClass);
         await _context.SaveChangesAsync();
     }
-
-
 
     public async Task DeleteStudentFromClass(int classId, int studentId)
     {

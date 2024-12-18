@@ -10,7 +10,6 @@ public static class Extensions
 {
     public static IServiceCollection AddBussiness(this IServiceCollection services)
     {
-
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IClassService, ClassService>();
         services.AddScoped<IDiningRoomService, DiningRoomService>();
